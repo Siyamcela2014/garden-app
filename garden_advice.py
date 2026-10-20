@@ -54,17 +54,20 @@ def get_gardening_advice(month):
 
 
 def main():
-    """Ask for a month and display its season and gardening advice."""
+    """Run the gardening advice application."""
     try:
         month = int(input("Enter a month (1-12): "))
-        season = get_season(month)
-        advice = get_gardening_advice(month)
 
-        print(f"\nSeason: {season}")
-        print(f"Gardening advice: {advice}")
+        if not validate_month(month):
+            raise ValueError(
+                "Month must be an integer between 1 and 12."
+            )
+
+        print(f"Season: {get_season(month)}")
+        print(f"Gardening advice: {get_gardening_advice(month)}")
 
     except ValueError as error:
-        print(f"Invalid input: {error}")
+        print("Invalid input: Please enter a whole number from 1 to 12.")
 
 
 if __name__ == "__main__":
