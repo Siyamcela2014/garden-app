@@ -1,53 +1,70 @@
+
 """Provide gardening advice based on the month and season.
 
-TODO: Refactor the advice into reusable functions.
-TODO: Add input validation for month values.
-TODO: Replace hardcoded advice with a reusable data structure.
+This module offers seasonal gardening guidance for the
+Southern Hemisphere.
 """
+
+# Gardening advice is stored in one reusable data structure.
+GARDENING_ADVICE = {
+    1: "Water plants regularly and protect them from extreme heat.",
+    2: "Keep watering plants and harvest summer vegetables.",
+    3: "Prepare soil and plant cool-season vegetables.",
+    4: "Add compost and protect plants as temperatures drop.",
+    5: "Reduce watering and plant winter vegetables.",
+    6: "Protect sensitive plants from cold and frost.",
+    7: "Prune suitable plants and prepare soil for spring.",
+    8: "Start preparing beds and sow early spring vegetables.",
+    9: "Plant spring flowers and increase watering gradually.",
+    10: "Plant warm-season crops and remove weeds.",
+    11: "Water deeply and mulch beds to retain moisture.",
+    12: "Water frequently and protect plants from summer heat.",
+}
+
+# Each month is mapped to its Southern Hemisphere season.
+SEASONS = {
+    1: "Summer", 2: "Summer", 3: "Autumn",
+    4: "Autumn", 5: "Autumn", 6: "Winter",
+    7: "Winter", 8: "Winter", 9: "Spring",
+    10: "Spring", 11: "Spring", 12: "Summer",
+}
+
+
+def validate_month(month):
+    """Return True when month is an integer from 1 to 12."""
+    return isinstance(month, int) and not isinstance(
+        month, bool
+    ) and 1 <= month <= 12
 
 
 def get_season(month):
-    """Return the season for a month in the Southern Hemisphere."""
-    seasons = {
-        12: "Summer", 1: "Summer", 2: "Summer",
-        3: "Autumn", 4: "Autumn", 5: "Autumn",
-        6: "Winter", 7: "Winter", 8: "Winter",
-        9: "Spring", 10: "Spring", 11: "Spring",
-    }
-    return seasons.get(month, "Unknown")
+    """Return the season for a valid month in the Southern Hemisphere."""
+    if not validate_month(month):
+        raise ValueError("Month must be an integer between 1 and 12.")
+
+    return SEASONS[month]
 
 
 def get_gardening_advice(month):
-    """Return gardening advice for a given month."""
-    advice = {
-        1: "Water plants regularly and protect them from extreme heat.",
-        2: "Harvest ripe vegetables and check plants for pests.",
-        3: "Prepare soil and plant suitable autumn vegetables.",
-        4: "Add compost to garden beds and reduce watering as needed.",
-        5: "Protect sensitive plants as temperatures begin to fall.",
-        6: "Prune suitable plants and prepare garden tools for winter.",
-        7: "Plan spring planting and remove weeds.",
-        8: "Prepare seedbeds and start planting spring vegetables.",
-        9: "Plant seasonal flowers and monitor new growth.",
-        10: "Water consistently and watch for garden pests.",
-        11: "Mulch garden beds to help retain moisture.",
-        12: "Keep plants hydrated and harvest summer crops.",
-    }
-    return advice.get(month, "Please enter a month from 1 to 12.")
+    """Return gardening advice for a valid month."""
+    if not validate_month(month):
+        raise ValueError("Month must be an integer between 1 and 12.")
+
+    return GARDENING_ADVICE[month]
 
 
 def main():
-    """Run the gardening advice application."""
+    """Ask for a month and display its season and gardening advice."""
     try:
-        month = int(input("Enter the month (1-12): "))
-        if not 1 <= month <= 12:
-            print("Invalid month. Enter a number from 1 to 12.")
-            return
+        month = int(input("Enter a month (1-12): "))
+        season = get_season(month)
+        advice = get_gardening_advice(month)
 
-        print(f"Season: {get_season(month)}")
-        print(f"Gardening advice: {get_gardening_advice(month)}")
-    except ValueError:
-        print("Invalid input. Please enter a whole number.")
+        print(f"\nSeason: {season}")
+        print(f"Gardening advice: {advice}")
+
+    except ValueError as error:
+        print(f"Invalid input: {error}")
 
 
 if __name__ == "__main__":
